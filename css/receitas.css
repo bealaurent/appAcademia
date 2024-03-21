@@ -1,0 +1,143 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color: #f0f0f0;
+    font-family: "Lato", sans-serif;
+}
+.header {
+    background-color: red;
+    height: 90px;
+    text-align: center;
+    padding-top: 10px;
+}
+
+a {
+    text-decoration: none;
+    text-align: center;
+}
+
+.img-gb{
+    height: 50px;
+    margin-left: 40%;
+    margin-top: 20px;
+}
+
+.banner-card {
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    height: 250px;
+    margin-bottom: 20px;
+}
+
+.banner {
+    background-image: url(img/salada_caesar.jpg);
+    background-position: center;
+    background-size: cover;
+    height: 300px
+}
+
+.banner-banana {
+    background-image: url(img/bolo_banana.jpeg);
+    background-position: center;
+    background-size: cover;
+    height: 300px
+}
+
+.banner-crepioca {
+    background-image: url(img/crepioca.jpg);
+    background-position: center;
+    background-size: cover;
+    height: 300px
+}
+
+.banner-morango {
+    background-image: url(img/morango.png);
+    background-position: center;
+    background-size: cover;
+    height: 300px
+}
+
+.card {
+    background-color: white;
+    margin: auto;
+    padding: 40px;
+    margin-top: 50px;
+    border-radius: 10px;
+    font-weight: 300;
+    margin-bottom: 50px;
+
+}
+
+h1 {
+
+    font-weight: 400;
+    font-size: 25px;
+    color: red;
+    margin-bottom: 15px;
+}
+
+h2 {
+    font-weight: 400;
+    font-size: 18px;
+    color:rgb(252, 84, 84);
+    margin-bottom: 10px;
+}
+
+li {
+    line-height: 30px;
+    list-style-position: inside;
+}
+
+ul {
+    margin-bottom: 40px;
+}
+
+.form>input, .form>button{
+    width: 100%px;
+    height: 50px;
+    border-radius: 28px;
+}
+
+.form>button{
+    cursor: pointer;
+    width: 100%;
+    height: 50px;
+    padding: 0 16px;
+    background: #ff0000;
+    color: #f9f9f9;
+    border: 0;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 2px;
+    transition: all 0.375s;
+}
+
+.form>button:hover{
+    color: #fff;
+    background: #143d81;
+}
+
+.footer {
+    color:white;
+    background-color: red;
+    height: 25px;
+    font-size: 12px;
+    text-align: center;
+}
+
+p {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.titulo-receita {
+    text-align: center;
+    font-weight: 700;
+    font-size: 20px;
+    margin-top: 30px;
+}

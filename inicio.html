@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/css/inicio.css">
+    <title>Início</title>
+    <style>
+        #chartdiv {
+            width: 95%;
+            max-width:100%;
+            height: 500px;
+        }
+        </style>
+        
+        <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+        <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+        <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+        <script src="https://cdn.amcharts.com/lib/5/themes/Responsive.js"></script>
+        
+        <script>
+        am5.ready(function() {
+            var root = am5.Root.new("chartdiv");
+            
+            const myTheme = am5.Theme.new(root);
+            
+            myTheme.rule("AxisLabel", ["minor"]).setAll({
+              dy:1
+            });
+            
+            myTheme.rule("AxisLabel").setAll({
+              fontSize:"0.9em"
+            });
+            root.setThemes([
+              am5themes_Animated.new(root),
+              myTheme,
+              am5themes_Responsive.new(root)
+            ]);
+            var chart = root.container.children.push(am5xy.XYChart.new(root, {
+              wheelX: "panX",
+              wheelY: "zoomX",
+              pinchZoomX: true,
+              paddingLeft: 0
+            }));
+            var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
+              behavior: "none"
+            }));
+            cursor.lineY.set("visible", false);
+            var date = new Date();
+            date.setHours(0, 0, 0, 0);
+            var value = 95;
+            
+            function generateData() {
+              value = Math.round((Math.random() * 10 - 5) + value);
+              am5.time.add(date, "day", 1);
+              return {
+                date: date.getTime(),
+                value: value
+              };
+            }
+            
+            function generateDatas(count) {
+              var data = [];
+              for (var i = 0; i < count; ++i) {
+                data.push(generateData());
+              }
+              return data;
+            }
+            var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
+              maxDeviation: 0.2,
+              baseInterval: {
+                timeUnit: "day",
+                count: 1
+              },
+              renderer: am5xy.AxisRendererX.new(root, {
+                minorGridEnabled: true,
+                minorLabelsEnabled: true
+              }),
+              tooltip: am5.Tooltip.new(root, {})
+            }));
+            
+            xAxis.set("minorDateFormats", {
+              "day":"dd",
+              "month":"MMM"
+            });
+            
+            var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+              renderer: am5xy.AxisRendererY.new(root, {
+                pan: "zoom"
+              })
+            }));
+            var series = chart.series.push(am5xy.LineSeries.new(root, {
+              name: "Series",
+              xAxis: xAxis,
+              yAxis: yAxis,
+              valueYField: "value",
+              valueXField: "date",
+              tooltip: am5.Tooltip.new(root, {
+                labelText: "{valueY}"
+              })
+            }));
+            
+            series.bullets.push(function() {
+              var graphics = am5.Circle.new(root, {
+                radius: 4,
+                interactive: true,
+                cursorOverStyle: "ns-resize",
+                stroke: series.get("stroke"),
+                fill: am5.color(0xffffff)
+              });
+            
+              return am5.Bullet.new(root, {
+                sprite: graphics
+              });
+            });
+            chart.set("scrollbarX", am5.Scrollbar.new(root, {
+              orientation: "horizontal"
+            }));
+            var isDown = false;
+            chart.plotContainer.events.on("pointerdown", function() {
+              isDown = true;
+            })
+            chart.plotContainer.events.on("globalpointerup", function() {
+              isDown = false;
+            })
+            
+            chart.plotContainer.events.on("globalpointermove", function(e) {
+              if (isDown) {
+                var tooltipDataItem = series.get("tooltipDataItem");
+                if (tooltipDataItem) {
+                  if (e.originalEvent) {
+            
+                    var position = yAxis.coordinateToPosition(chart.plotContainer.toLocal(e.point).y);
+                    var value = yAxis.positionToValue(position);
+                    tooltipDataItem.set("valueY", value);
+                    tooltipDataItem.set("valueYWorking", value);
+                  }
+                }
+              }
+            })
+            
+            chart.plotContainer.children.push(am5.Label.new(root, {
+              x: am5.p100,
+              centerX: am5.p100,
+              text: "Evolução de massa corporal"
+            }))
+            var data = generateDatas(10);
+            series.data.setAll(data);
+            series.appear(1000);
+            chart.appear(1000, 100);
+            
+            });
+            </script>
+            
+</head>
+<body>
+    <div class="container">
+        <main>
+            <header>
+                <h5>Olá <b>José</b>, bem-vindo de volta!</h5>
+            </header>
+            <div class="separator">
+                <div class="info">
+                    <h3>Meus treinos</h3>
+                    <a href="#">Ver todos</a>
+                </div>
+                <div class="search">
+                    <i class='bx bx-search'></i>
+                    <input type="text" placeholder="Pesquisar...">
+                </div>
+            </div>
+            <div class="analytics">
+                <div class="item">
+                    <div class="progress">
+                        <div class="info">
+                            <h5>Treino A</h5>
+                            <p>Ombro/Peito/Triceps</p>
+                        </div>
+                        <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="progress">
+                        <div class="info">
+                            <h5>Treino B</h5>
+                            <p>Perna</p>
+                        </div>
+                        <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="progress">
+                        <div class="info">
+                            <h5>Treino C</h5>
+                            <p>Glúteo/Perna</p>
+                        </div>
+                        <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="progress">
+                        <div class="info">
+                            <h5>Treino D</h5>
+                            <p>Bíceps/Costas/Todos</p>
+                        </div>
+                        <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="separator">
+                <div class="info">
+                    <h3>Plannejamento</h3>
+                    <a href="#">Ver todos</a>
+                </div>
+                <input type="date" value="2024-03-15">
+            </div>
+            <div class="planning">
+                <div class="item">
+                    <div class="left">
+                        <div class="icon">
+                            <i class='bx bx-user'></i>
+                        </div>
+                        <div class="details">
+                            <h5>Consulta com Personal</h5>
+                            <p>8:00 - 10:00</p>
+                        </div>
+                    </div>
+                    <i class='bx bx-dots-vertical-rounded'></i>
+                </div>
+                <div class="item">
+                    <div class="left">
+                        <div class="icon">
+                            <i class='bx bx-dumbbell' ></i>                        </div>
+                        <div class="details">
+                            <h5>Musculação</h5>
+                            <p>13:00 - 14:00</p>
+                        </div>
+                    </div>
+                    <i class='bx bx-dots-vertical-rounded'></i>
+                </div>
+                <div class="item">
+                    <div class="left">
+                        <div class="icon">
+                            <i class='bx bxs-music' ></i>                        </div>
+                        <div class="details">
+                            <h5>Dança</h5>
+                            <p>15:00 - 16:00</p>
+                        </div>
+                    </div>
+                    <i class='bx bx-dots-vertical-rounded'></i>
+                </div>
+                <div class="item">
+                    <div class="left">
+                        <div class="icon">
+                            <i class='bx bx-water'></i>                        </div>
+                        <div class="details">
+                            <h5>Hidroginastica</h5>
+                            <p>19:00 - 20:00</p>
+                        </div>
+                    </div>
+                    <i class='bx bx-dots-vertical-rounded'></i>
+                </div>
+            </div>
+        </main>
+        <aside class="right-section">
+            <div class="top">
+                <i class='bx bx-bell'></i>
+                <div class="profile">
+                    <div class="left">
+                        <img src="img/profile.png">
+                        <div class="user">
+                            <h5>José da Silva</h5>
+                            <a href="#">Plano Bem-estar</a>
+                        </div>
+                    </div>
+                    <i class='bx bxs-chevron-right'></i>
+                </div>
+            </div>
+            <div class="separator" id="first">
+                <h4>Estatísticas</h4>
+            </div>
+            <div class="stats">
+                <div class="item">
+                    <div class="top">
+                        <p>Aulas</p>
+                        <p>Completas</p>
+                    </div>
+                    <div class="bottom">
+                        <div class="line"></div>
+                        <h3>20/30</h3>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="top">
+                        <p>Média de </p>
+                        <p>Treino</p>
+                    </div>
+                    <div class="bottom">
+                        <div class="line"></div>
+                        <h3>2h50min</h3>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="top">
+                        <p>Meses na</p>
+                        <p>Academia</p>
+                    </div>
+                    <div class="bottom">
+                        <div class="line"></div>
+                        <h3>03</h3>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="top">
+                        <p>Treino mais</p>
+                        <p>Executado</p>
+                    </div>
+                    <div class="bottom">
+                        <div class="line"></div>
+                        <h3>A e C</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="separator" id="first">
+                <h4>Indicadores de Saúde</h4>
+            </div>
+            <div id="chartdiv"></div>
+            <div class="stats2">
+                <div class="item2">
+                    <div class="top2">
+                        <p>Peso</p>
+                        <p>Inicial</p>
+                    </div>
+                    <div class="bottom2">
+                        <div class="line2"></div>
+                        <h3>95kg</h3>
+                    </div>
+                </div>
+                <div class="item2">
+                    <div class="top2">
+                        <p>IMC </p>
+                    </div> 
+                    <div class="top2">
+                        <p>Sobrepeso</p>
+                    </div>
+                    <div class="bottom2">
+                        <div class="line2"></div>
+                        <h3>26</h3>
+                    </div>
+                </div>
+                <div class="item2">
+                    <div class="top2">
+                        <p>Peso</p>
+                        <p>Atual</p>
+                    </div>
+                    <div class="bottom2">
+                        <div class="line2"></div>
+                        <h3>88kg</h3>
+                    </div>
+                </div>
+                <div class="item2">
+                    <div class="top2">
+                        <p>Meta</p>
+                    </div>
+                    <div class="bottom2">
+                        <div class="line2"></div>
+                        <h3>80kg</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="separator">
+                <h4>Próximo Treino</h4>
+            </div>
+            <div class="weekly">
+                <div class="title">
+                    <div class="line"></div>
+                    <h5>Treino C</h5>
+                </div>
+                <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                </div>
+            </div>
+            <div class="separator">
+                <h4>Mais Opções</h4>
+            </div><br/>
+            <form class="form">
+                <button type="submit" formaction="receitas.html">Receitas / Mercado</button><br/><br/>
+                <button type="submit" formaction="editar.html">Configurações</button><br/><br/>
+                <button type="submit" formaction="index.html">Sair</button><br/><br/>
+            </form>
+        </aside>
+        <div class="footer">
+            <p>Copyright - Vida Ativa 2024 - Todos os Direitos Reservados</p>
+        </div>
+    </div>
+</body>
+
+</html>

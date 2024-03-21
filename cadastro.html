@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+    <title>Cadastro</title>
+</head>
+<body>
+    
+    <div class="circle"></div>
+    <div class="card">
+        <div class="logo">
+            <img src="img/vida_ativa_logo_png.png">
+        </div>
+        <h2>Crie sua conta</h2>
+        <form class="form">
+            <input type="text" placeholder="Nome e sobrenome">
+            <input type="text" placeholder="Usuário">
+            <input type="text" placeholder="E-mail">
+            <input type="text" placeholder="Idade">
+            <input type="text" placeholder="Senha">
+            <input type="text" placeholder="Repita sua senha">
+            <button type="submit" id="cadastreBtn">Finalizar</button>
+            <button type="submit" formaction="index.html">Voltar</button>
+        </form>
+    </div>
+
+    <div id="popup" class="popup">
+        <p>Cadastrado com sucesso!</p>
+    </div>
+
+    <script>
+        function showPopup() {
+            var popup = document.getElementById("popup");
+            popup.style.display = "block";
+            setTimeout(function() {
+                popup.style.display = "none";
+            }, 2000);
+        }
+
+        document.getElementById("cadastreBtn").addEventListener("click", function(event) {
+            event.preventDefault(); 
+            showPopup();
+        });
+    </script>
+</body>
+</html>
